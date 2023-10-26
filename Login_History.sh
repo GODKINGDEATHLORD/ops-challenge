@@ -2,7 +2,7 @@
 
 # Script:                     Login History  
 # Author:                     Nicolaus Watson  
-# Date of latest revision:    10/26/2024  
+# Date of latest revision:    10/26/2023  
 # Purpose:                    To check login history 
 
 # Declaration of functions
