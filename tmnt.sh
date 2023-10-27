@@ -9,21 +9,15 @@
 
 # Declaration of variables 
 
-tmnt="skittles"
+tmnt="Leonardo"
 #        index 0      index 1
-snacks=("skittles" "pop tarts" "snickers" "tamales" "myself")
+tmnts=("Leonardo" "Raphael" "Donatello" "Micheangelo")
 
+# Declaration of functions 
 
-# Basic function
-login_history () {
-  last | head -3 # last five logins
-  echo this is the login history 
-}
+echo ${snacks(0)}
+echo ${snacks(3)}
 
-# Main
-login_history
-login_history
-login_history
-
+echo $snack 
 
 # End
