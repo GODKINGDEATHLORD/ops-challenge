@@ -15,9 +15,12 @@ tmnts=("Leonardo" "Raphael" "Donatello" "Micheangelo")
 
 # Declaration of functions 
 
-echo ${snacks(0)}
-echo ${snacks(3)}
+echo ${tmnts[0]}
 
-echo $snack 
+echo ${tmnts[1]}
 
-# End
+echo ${tmnts[2]}
+
+echo ${tmnts[3]}
+
+#End
