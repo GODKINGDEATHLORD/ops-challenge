@@ -38,4 +38,4 @@ while true; do
     fi
 done
 
-# utilized chatgpt , and the github 
+# utilized chatgp
