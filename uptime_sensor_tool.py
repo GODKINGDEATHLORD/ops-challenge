@@ -1,19 +1,40 @@
 #!/usr/bin/env python3
 
 # imports datetime mode & os(gives you access to a bunch of commands that are specific to the operating system)
-import datetime, os
-# define timestamp and assign timestamp to variable now 
+from datetime import datetime 
+import os
+import time
+
+from pythonping import ping
+# will reference these two variables on line 27
+ip = 'localhost'
+count = 1
+
+# define timestamp and assign timestamp to variable now , from datetime its referencing the file called datetime 
 def timestamp():
-    now = datetime.datetime.now()
+    now = datetime.now()
     return now 
 
 # Am i being run on the  command line or am I being imported?
 if __name__ == '__main__':
 # Prints the os function that we now have control over due to the import in line 4 and we are pinging the local host and time stamp
 #  , and we tell it to ping once which is -c, and to wait 2 seconds before printing
-    print(os.system("ping -i 2 localhost")) 
-    print(timestamp())
+   status = ''
+   timestamp = timestamp()
+# while loop( wont stop unless we create a measure to break out of it), while the boolean check is true, run the code that well write, 
+# and will wait two seconds before spitting it out again
+   while True: 
+        # print(os.system("ping -c 1 localhost")) the output of ping got assigned to result here
+        result = ping(ip, count)
+        if result.success():
+            status = 'Network Active'
+        else:
+            status = 'Network Down'
 
+        time.sleep(2) 
+        print(f"{timestamp} {status} to {ip}")
+
+# Example output: 2020-10-05 17:57:57.510261 Network Active to 8.8.8.8
 
 
 
