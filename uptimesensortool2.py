@@ -8,8 +8,9 @@ from datetime import datetime
 import sys
 import time
 import smtplib
+import subprocess
 # Not part of python, downloaded and installed using pip( publically accessable on the internet)
-from pythonping import ping
+# from pythonping import ping
 # will reference these two variables on line 27,    sys.argv scans the list , and then you reference it in order, 
 # ip = 'localhost' 
 ping_count = 1
@@ -44,7 +45,14 @@ def sendemail(
     s.quit()   
     print('email sent')
 
-# Am i being run on the  command line or am I being imported?
+def ping_ip(ip):
+    try:
+        output = subprocess.check_output("ping -c 1" + ip, shell=True)
+        return True
+    except subprocess.CalledProcessError: 
+        return False
+    
+    # Am i being run on the  command line or am I being imported? will this be  will this be a script or a library 
 if __name__ == '__main__':
 #  the return value of timestamp() gets assigned to the variable time_stamp    'doesnt ask us to send an email if its down, but ask us to send an
 #    email if it changes, was this intended'
@@ -57,13 +65,12 @@ if __name__ == '__main__':
 # and will wait two seconds before spitting it out again
    while True: 
         # print(os.system("ping -c 1 localhost")) the output of ping got assigned to result here
-        result = ping(ip, ping_count)
-        if result.success():
+        result = ping_ip(ip)
+        if result:
             status_message = 'Network Active'
-            state = 'up'
-  
+            new_state = 'up'
         else:
-            state = 'down'
+            new_state = 'down'
             status_message = 'Network Down'
 # go through this again
         if new_state != state:
