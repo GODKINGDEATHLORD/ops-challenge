@@ -1,25 +1,10 @@
 #!/usr/bin/env python3
 from cryptography.fernet import Fernet
-
-# much of this code was taken from examples provided in
-# https://thepythoncode.com/article/encrypt-decrypt-files-symmetric-python
-# 
-# mkdir OC06          
-# python3 -m venv .venv ( create virtual enviorment, so we dont polute or python library)
-# source .venv/bin/activate    ( changes the path to use local python3) 
-# pip install cryptography
-# pip freeze > requirements.txt
-
-# README.md
-# This script requires installation of the `cryptography` pipy module
-# ```bash
-# python3 -m venv .venv   ( create virtual enviorments)
-# source .venv/bin/activate (change path to use local enviorment )
-# pip install -r requirements.txt (install python modules)
+import os
 
 def write_key():
     """
-    Generates a key and save it into a file
+    Generates a key and saves it into a file
     """
     key = Fernet.generate_key()
     with open("key.key", "wb") as key_file:
@@ -31,61 +16,72 @@ def load_key():
     """
     return open("key.key", "rb").read()
 
-def encrypt_file():
-    pass
+def encrypt_file(file_path, key):
+    """
+    Encrypts the target file and replaces it with the encrypted version
+    """
+    with open(file_path, "rb") as file:
+        data = file.read()
+    f = Fernet(key)
+    encrypted_data = f.encrypt(data)
+    with open(file_path, "wb") as file:
+        file.write(encrypted_data)
 
-def decrypt_file():
-    pass
+def decrypt_file(file_path, key):
+    """
+    Decrypts the target file and replaces it with the decrypted version
+    """
+    with open(file_path, "rb") as file:
+        encrypted_data = file.read()
+    f = Fernet(key)
+    decrypted_data = f.decrypt(encrypted_data)
+    with open(file_path, "wb") as file:
+        file.write(decrypted_data)
 
-def encrypt_message():
-    pass
-    
-def decrypt_message():
-    pass
+def encrypt_message(message, key):
+    """
+    Encrypts the string and prints the ciphertext to the screen
+    """
+    f = Fernet(key)
+    encrypted_message = f.encrypt(message.encode())
+    print(f"Encrypted Message: {encrypted_message.decode()}")
+
+def decrypt_message(encrypted_message, key):
+    """
+    Decrypts the string and prints the cleartext to the screen
+    """
+    f = Fernet(key)
+    decrypted_message = f.decrypt(encrypted_message.encode())
+    print(f"Decrypted Message: {decrypted_message.decode()}")
 
 if __name__ == '__main__':
-
     # generate and write a new key
     write_key()
     key = load_key()
-    message = "some secret message".encode()
-    # initialize the Fernet class
-    f = Fernet(key)
-    encrypted = f.encrypt(message)
-    decrypted_encrypted = f.decrypt(encrypted)
-    print(f"""
-        Original Message: {message}
-        Encrypted Text: {encrypted}
-        Decrypted Text: {decrypted_encrypted}
-        """)
 
+    # prompt the user to select a mode
+    mode = int(input("""Select mode:
+                     1. Encrypt a file
+                     2. Decrypt a file
+                     3. Encrypt a message
+                     4. Decrypt a message
+                     > """))
 
+    if mode == 1 or mode == 2:
+        file_path = input("Enter the filepath to the target file: ")
+        if not os.path.exists(file_path):
+            print("File not found.")
+            exit()
+    elif mode == 3 or mode == 4:
+        message = input("Enter the cleartext string: ")
 
-
-
-
-
-
-
-
-
-# Requirements
-# In Python, create a script that utilizes the cryptography library to:
-
-# Prompt the user to select a mode:
-# Encrypt a file (mode 1)
-# Decrypt a file (mode 2)
-# Encrypt a message (mode 3)
-# Decrypt a message (mode 4)
-# If mode 1 or 2 are selected, prompt the user to provide a filepath to a target file.
-# If mode 3 or 4 are selected, prompt the user to provide a cleartext string.
-# Depending on the selection, perform one of the below functions. You’ll need to create four functions:
-
-# Encrypt the target file if in mode 1.
-# Delete the existing target file and replace it entirely with the encrypted version.
-# Decrypt the target file if in mode 2.
-# Delete the encrypted target file and replace it entirely with the decrypted version.
-# Encrypt the string if in mode 3.
-# Print the ciphertext to the screen.
-# Decrypt the string if in mode 4.
-# Print the cleartext to the screen.`
+    if mode == 1:
+        encrypt_file(file_path, key)
+        print(f"{file_path} encrypted successfully.")
+    elif mode == 2:
+        decrypt_file(file_path, key)
+        print(f"{file_path} decrypted successfully.")
+    elif mode == 3:
+        encrypt_message(message, key)
+    elif mode == 4:
+        decrypt_message(message, key)
