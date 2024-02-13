@@ -5,7 +5,7 @@
 # Date of latest revision:      2/2/2024
 # Purpose:                      Perform network scanning to ping an IP and scan its ports if it's alive using Scapy in Python.
 # Execution:                    python 13.py
-# Referenced:                   Scapy documentation, Python ipaddress module documentation, CHATGPT
+# Referenced:                   Scapy documentation, Python ipaddress module documentation, CHATGPT, Codefellows github repo
 
 import ipaddress
 from scapy.all import ICMP, IP, sr1, sr, RandShort, TCP
